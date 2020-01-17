@@ -1,6 +1,16 @@
 package jadx.gui.settings;
 
-import java.awt.*;
+import com.beust.jcommander.Parameter;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.awt.Font;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Window;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,14 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import javax.swing.*;
-
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.beust.jcommander.Parameter;
+import javax.swing.JFrame;
 
 import jadx.api.JadxArgs;
 import jadx.cli.JadxCLIArgs;
@@ -64,7 +67,7 @@ public class JadxSettings extends JadxCLIArgs {
 	/**
 	 * UI setting: the width of the tree showing the classes, resources, ...
 	 */
-	private int treeWidth = 130;
+	private int treeWidth = 130 ;
 
 	private int settingsVersion = 0;
 

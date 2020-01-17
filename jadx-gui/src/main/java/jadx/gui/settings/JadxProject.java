@@ -1,5 +1,11 @@
 package jadx.gui.settings;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,12 +14,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import jadx.gui.utils.NLS;
 import jadx.gui.utils.PathTypeAdapter;
 
 public class JadxProject {
@@ -28,7 +29,7 @@ public class JadxProject {
 			.create();
 
 	private transient JadxSettings settings;
-	private transient String name = "New Project";
+	private transient String name = NLS.str("file.new_project");
 	private transient Path projectPath;
 	private List<Path> filesPath;
 	private List<String[]> treeExpansions = new ArrayList<>();

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
@@ -106,11 +107,15 @@ import jadx.gui.utils.UiUtils;
 import static io.reactivex.internal.functions.Functions.EMPTY_RUNNABLE;
 import static javax.swing.KeyStroke.getKeyStroke;
 
+/**
+ * 应用界面的入口构造类
+ */
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
 	private static final Logger LOG = LoggerFactory.getLogger(MainWindow.class);
 
-	private static final String DEFAULT_TITLE = "jadx-gui";
+	// 默认的窗口名字
+	private static final String DEFAULT_TITLE = "壕逆向专业版";
 
 	private static final double BORDER_RATIO = 0.15;
 	private static final double WINDOW_RATIO = 1 - BORDER_RATIO * 2;
@@ -138,7 +143,9 @@ public class MainWindow extends JFrame {
 	private transient Action newProjectAction;
 	private transient Action saveProjectAction;
 
+	// 主窗口容器
 	private JPanel mainPanel;
+	// 代码区域容器
 	private JSplitPane splitPane;
 
 	private JTree tree;
@@ -179,8 +186,13 @@ public class MainWindow extends JFrame {
 		this.backgroundExecutor = new BackgroundExecutor(this);
 	}
 
+	/**
+	 * 初始化函数
+	 */
 	public void init() {
+		// 设置窗口的大小
 		pack();
+		// 设置窗口的位置
 		setLocationAndPosition();
 		splitPane.setDividerLocation(settings.getTreeWidth());
 		heapUsageBar.setVisible(settings.isShowHeapUsageBar());
@@ -865,8 +877,9 @@ public class MainWindow extends JFrame {
 		updateLink = new Link("", JadxUpdate.JADX_RELEASES_URL);
 		updateLink.setVisible(false);
 
+		// 工具栏
 		JToolBar toolbar = new JToolBar();
-		toolbar.setFloatable(false);
+ 		toolbar.setFloatable(false);
 		toolbar.add(openAction);
 		toolbar.add(saveAllAction);
 		toolbar.add(exportAction);
@@ -892,10 +905,18 @@ public class MainWindow extends JFrame {
 		mainPanel.add(toolbar, BorderLayout.NORTH);
 	}
 
+	/**
+	 * 初始化UI
+	 */
 	private void initUI() {
-		setMinimumSize(new Dimension(200, 150));
+		// 设置最小的尺寸
+		setMinimumSize(new Dimension(400, 300));
+		// 主窗口的容器
 		mainPanel = new JPanel(new BorderLayout());
+		// 实际代码详情的容器
 		splitPane = new JSplitPane();
+		splitPane.setBackground(Color.WHITE);
+		splitPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setResizeWeight(SPLIT_PANE_RESIZE_WEIGHT);
 		mainPanel.add(splitPane);
 
@@ -1051,10 +1072,12 @@ public class MainWindow extends JFrame {
 		if (settings.loadWindowPos(this)) {
 			return;
 		}
+		// 获取窗口的尺寸信息
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		DisplayMode mode = gd.getDisplayMode();
 		int w = mode.getWidth();
 		int h = mode.getHeight();
+		// 设置窗口容器的
 		setBounds((int) (w * BORDER_RATIO), (int) (h * BORDER_RATIO),
 				(int) (w * WINDOW_RATIO), (int) (h * WINDOW_RATIO));
 		setLocationRelativeTo(null);

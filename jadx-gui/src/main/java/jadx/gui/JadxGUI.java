@@ -1,10 +1,10 @@
 package jadx.gui;
 
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import jadx.cli.LogHelper;
 import jadx.gui.settings.JadxSettings;
@@ -19,22 +19,30 @@ public class JadxGUI {
 
 	public static void main(String[] args) {
 		try {
+			// logo 打印
 			LogCollector.register();
+			// 设置log 的打印类型
 			final JadxSettings settings = JadxSettingsAdapter.load();
-			settings.setLogLevel(LogHelper.LogLevelEnum.INFO);
+			settings.setLogLevel(LogHelper.LogLevelEnum.DEBUG);
 			// overwrite loaded settings by command line arguments
 			if (!settings.overrideProvided(args)) {
 				return;
 			}
 			if (!tryDefaultLookAndFeel()) {
+				//设置不同的系统所对应的window class 路径  可以看做 反射实例化一个window对象
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			}
+			// 设置当前的系统语言  默认是 英文
 			NLS.setLocale(settings.getLangLocale());
+			LOG.debug("language " + settings.getLangLocale().get().toString());
+			// 打印一下系统的信息
 			printSystemInfo();
-
-			SwingUtilities.invokeLater(new MainWindow(settings)::init);
+			// 窗口的入口函数  类似创建一个Handler然后放到窗口中
+			Runnable runnable = new MainWindow(settings)::init;
+			SwingUtilities.invokeLater(runnable);
 		} catch (Exception e) {
 			LOG.error("Error: {}", e.getMessage(), e);
+			// 出现异常 退出应用
 			System.exit(1);
 		}
 	}
